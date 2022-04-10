@@ -1,32 +1,36 @@
 <?php require_once './header.php'; 
  require_once './navbar.php';
- 
+ session_start() ;
   ?>
 <?php
-//echo $_SESSION['uname'];
+//echo isset($_SESSION["id"]) . "\n";
+//echo $_SESSION["id"]. "\n";
+//echo isset($_SESSION["id"])?$_SESSION["id"]:1;
 
    if(isset($_POST["osszeg"]) ){
        if($_POST["osszeg"] <= 0){
           echo '<script>alert("Az összegnek pozitívnak kell lennie!")</script>';;
        }else{
-          
+          echo '<script>alert("Sikeres rögzítés!")</script>';
             $osszeg = filter_input(INPUT_POST, "osszeg", FILTER_SANITIZE_NUMBER_INT);
             $id = filter_input(INPUT_POST, "ID", FILTER_SANITIZE_NUMBER_INT);
+            $_SESSION["id"] = $id;
             $tmpdatum = date(filter_input(INPUT_POST, 'datum', FILTER_SANITIZE_STRING));
             $datum = date_format(date_create($tmpdatum), "Y-m-d");
+             
             // echo  $tmpdatum . " " . $datum ; 
             $sql3 = "INSERT INTO befizetes(id, datum, befizetes) VALUES(?,?,?);";
             $stmt2 = $conn -> prepare($sql3);
             $stmt2->bind_param("isi",$id, $datum, $osszeg);
             $stmt2 -> execute();
-           
-     echo' <script type="text/javascript">setDefault($id);</script>';
-    echo' <script type="text/javascript"> showBefizetes();</script>';
-        echo '<script>alert("Sikeres rögzítés!")</script>';
-                }
+           echo '<script>setDefault('. $id.');</script>';
+           '<script>showBefizetes();</script>';
+      //  header("Location: ./befizetes.php");
+        }
     
    
-} ?>
+}
+?>
 
 
 <div class="container listazo">
@@ -34,8 +38,7 @@
     <form method="POST" class="needs-validation" novalidate>
 
         <div>
-            <script  type="text/javascript" >setDefault(1) </script>
-           <script  type="text/javascript" > showBefizetes()</script>
+          
        
             <label for="ID">Befizető neve: </label>
             <select name="ID" id="ID" onchange="showBefizetes()" >
@@ -72,4 +75,24 @@
 <script>var y = document.getElementById("befizet");
     y.classList.add("active");
  </script>
+   <script > 
+       var mySelect = document.getElementById('ID');
+             var id =   <?php echo isset($_SESSION["id"])?$_SESSION["id"]:1; ?>;
+             console.log(id);
+            for(var i, j = 0; i = mySelect.options[j]; j++) {
+            if(i.value == id) {
+                mySelect.selectedIndex = j;
+                console.log(j)
+                //break;
+            }
+        }   
+            }</script>
+           <script> var x = document.getElementById("ID").value;
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload=function(){
+        document.getElementById("befizetes").innerHTML = this.responseText;
+        };
+        xhttp.open("GET", "egyenibefizetesek.php?id="+x);
+        xhttp.send();</script>
 
+ <?php require_once './footer.php'; 

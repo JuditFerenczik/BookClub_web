@@ -25,6 +25,9 @@
             }else{
               echo "smily face";
             }
+            
+           $tagid = $djson[$i]["id"];
+        //    echo $tagid;
         // echo  '<p> <img src="./images/' . $djson[$i]["csaladnev"]. ' '. $djson[$i]["utonev"] . '.jpg" srcset="./images/' .$neme . '.png"  alt="Nincs kép"  style="width:100px;"></p>';
 	echo '<p class="card-title"> <b>' . $djson[$i]["csaladnev"]. ' ' . $djson[$i]["utonev"]. '</b></p>';
          //date in mm/dd/yyyy format; or it can be in other formats as well
@@ -40,7 +43,7 @@
       // echo "<p>" . $djson[$i]['szuletett'].  "</p>";
 
        echo "<p class='card-text'> Belépett: " . $djson[$i]['belepett']. "</p>";
-       echo '<a href="#" class="btn btn-primary">Befizetések</a>';
+       echo '<a href="./egyenibefizetesek.php?id='.$tagid .'"class="btn btn-primary">Befizetések</a>';
 
        echo " </div></div></div>";}
         ?>
