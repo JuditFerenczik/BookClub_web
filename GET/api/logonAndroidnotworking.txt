@@ -1,0 +1,48 @@
+  @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+
+            )
+        }
+ btn_login.setOnClickListener{
+            var nev: EditText = findViewById(R.id.et_email)
+            var jelszo: EditText = findViewById(R.id.et_password)
+            register_u(nev.text.toString(),jelszo.text.toString())
+        }
+		
+		fun register_u(
+        nev: String,
+        jelszo: String
+        ){
+        val request: StringRequest = object : StringRequest(
+            Method.POST, "http://192.168.0.38/Webremek/app/myinsert.php",
+            Response.Listener { response ->
+                Toast.makeText(
+                    applicationContext,
+                    response,
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(
+                    applicationContext,
+                    error.toString(),
+                    Toast.LENGTH_LONG
+                ).show()
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String>? {
+                val map: MutableMap<String, String> = HashMap()
+                map["nev"] = nev
+                map["jelszo"] = jelszo
+                return map
+            }
+
+        }
+        val queue = Volley.newRequestQueue(applicationContext)
+        queue.add(request)
+    }

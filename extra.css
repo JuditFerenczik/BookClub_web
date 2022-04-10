@@ -1,0 +1,21 @@
+
+img{
+    border-radius: 50%;
+    border: 1px solid black;
+    width:100%;
+}
+.active{
+    background-color: #eee;
+    color: black;
+    border: 1px solid black;
+}
+footer{
+    margin-top: 50px;
+}
+.listazo{
+    width: 50%;
+}
+select, input{
+       width: 100%;
+       margin: 10px;
+}
