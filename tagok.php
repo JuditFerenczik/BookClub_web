@@ -47,3 +47,6 @@
         </div>
     </div>
 
+<script>var y = document.getElementById("tagok");
+    y.classList.add("active");
+ </script>

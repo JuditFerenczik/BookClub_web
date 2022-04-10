@@ -69,4 +69,7 @@
     </div> 
     
 </div>
+<script>var y = document.getElementById("befizet");
+    y.classList.add("active");
+ </script>
 
